@@ -1,4 +1,4 @@
-const ServerIdPage = () => {
+const ServerIdPage = async () => {
   return <div>ServerIdPage</div>
 }
 
