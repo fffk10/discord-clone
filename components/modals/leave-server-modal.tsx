@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,16 +10,35 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useModal } from '@/hooks/use-modal-store'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export const LeaveServerModal = () => {
   const { onOpen, isOpen, onClose, type, data } = useModal()
+  const router = useRouter()
 
   const isModalOpen = isOpen && type === 'leaveServer'
   const { server } = data
 
   const [copied, setCopied] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+  const onClick = async () => {
+    try {
+      setIsLoading(true)
+
+      await axios.patch(`/api/servers/${server?.id}/leave`)
+
+      onClose()
+      router.refresh()
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -33,7 +53,16 @@ export const LeaveServerModal = () => {
             ?
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter></DialogFooter>
+        <DialogFooter className='bg-gray-100 px-6 py-4'>
+          <div className='flex items-center justify-between w-full'>
+            <Button disabled={isLoading} onClick={onClose} variant='ghost'>
+              Cancel
+            </Button>
+            <Button disabled={isLoading} onClick={onClick} variant='primary'>
+              Confirm
+            </Button>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
