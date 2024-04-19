@@ -1,5 +1,6 @@
 'use client'
 
+import qs from 'query-string'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -22,7 +23,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
 import { ChannelType } from '@prisma/client'
 import {
@@ -46,6 +47,7 @@ const formSchema = z.object({
 export const CreateChannelModal = () => {
   const { isOpen, onClose, type } = useModal()
   const router = useRouter()
+  const params = useParams()
 
   const isModalOpen = isOpen && type === 'createChannel'
 
@@ -61,7 +63,13 @@ export const CreateChannelModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/servers', values)
+      const url = qs.stringifyUrl({
+        url: '/api/channels',
+        query: {
+          serverId: params?.serverId,
+        },
+      })
+      await axios.post(url, values)
       form.reset()
       router.refresh()
       onClose()
