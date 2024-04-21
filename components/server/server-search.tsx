@@ -74,7 +74,7 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder='Search all channels and members' />
-        <CommandList>
+        <CommandList className='bg-opacity-100'>
           <CommandEmpty>No Results found</CommandEmpty>
           {data.map(({ label, type, data }) => {
             if (!data?.length) return null
