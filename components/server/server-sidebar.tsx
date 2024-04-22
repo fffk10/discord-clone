@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation'
 import { Separator } from '@/components/ui/separator'
 import { ServerSection } from '@/components/server/server-section'
 import { ServerChannel } from '@/components/server/server-channel'
+import { ServerMember } from '@/components/server/server-member'
 
 interface ServerSidebarProps {
   serverId: string
@@ -138,6 +139,56 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             ))}
           </div>
         )}
+        {!!audioChannels?.length && (
+          <div className='mb-2'>
+            <ServerSection
+              sectionType='channels'
+              channelType={ChannelType.AUDIO}
+              role={role}
+              label='Voice Channels'
+            />
+            {audioChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
+        {!!videoChannels?.length && (
+          <div className='mb-2'>
+            <ServerSection
+              sectionType='channels'
+              channelType={ChannelType.VIDEO}
+              role={role}
+              label='Video Channels'
+            />
+            {videoChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                server={server}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
+        {!!members?.length && (
+          <div className='mb-2'>
+            <ServerSection
+              sectionType='members'
+              role={role}
+              label='Members'
+              server={server}
+            />
+            {members.map((member) => (
+              <ServerMember />
+            ))}
+          </div>
+        )}
+        <Separator />
       </ScrollArea>
     </div>
   )
