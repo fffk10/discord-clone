@@ -8,7 +8,6 @@ import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { Separator } from '@/components/ui/separator'
 import { ServerSection } from '@/components/server/server-section'
-import { channel } from 'diagnostics_channel'
 import { ServerChannel } from '@/components/server/server-channel'
 
 interface ServerSidebarProps {
