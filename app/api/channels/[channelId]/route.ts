@@ -1,4 +1,3 @@
-import { useSearchParams } from 'next/navigation'
 import { currentProfile } from '@/lib/current-profile'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
