@@ -6,6 +6,7 @@ import { ThemeProvider } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { ModalProvider } from '@/components/providers/modal-provider'
 import { SocketProvider } from '@/components/providers/socket-provider'
+import { QueryProvider } from '@/components/providers/query-provider'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -29,8 +30,10 @@ export default function RootLayout({
             storageKey='discord-theme'
           >
             <SocketProvider>
-              <ModalProvider />
-              {children}
+              <QueryProvider>
+                <ModalProvider />
+                {children}
+              </QueryProvider>
             </SocketProvider>
           </ThemeProvider>
         </body>
